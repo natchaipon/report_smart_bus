@@ -13,7 +13,7 @@
 
         function WebSocketTest() {
             if ("WebSocket" in window) {
-                var ws = new WebSocket("ws://192.168.1.143:1880/ws/ex");
+                var ws = new WebSocket("ws:localhost:1880/ws/ex");
                 ws.onmessage = function (evt) {
                     var received_msg = evt.data;
                     obj = JSON.parse(received_msg);
