@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <title>Bootstrap Example</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+   <script type="text/javascript">
+      // var received_msg;
+      var obj;
+
+      function WebSocketTest() {
+         if ("WebSocket" in window) {
+            var ws = new WebSocket("ws://103.86.49.233:1880/ws/ex");
+
+            ws.onopen = function () {
+               //ws.send("Message to send");
+               //alert("Message is sent...");
+            };
+
+            ws.onmessage = function (evt) {
+               var received_msg = evt.data;
+               obj = JSON.parse(received_msg);
+               // console.log(obj[0]['id']);
+               document.getElementById("id_data").innerHTML = obj[0]['id'];
+               document.getElementById("money_data").innerHTML = obj[0]['money'];
+               document.getElementById("date_data").innerHTML = obj[0]['time'];
+            };
+
+            ws.onclose = function () {
+               alert("Connection is closed...");
+            };
+         }
+      }
+
+      WebSocketTest();
+   </script>
+
+</head>
+
+<body>
+
+   <div class="container">
+      <h2>Basic Table</h2>
+      <p>The .table class adds basic styling (light padding and horizontal dividers) to a table:</p>
+      <table class="table">
+         <thead>
+            <tr>
+               <th>ID</th>
+               <th>Money</th>
+               <th>Date - Time</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               <td id="id_data"></td>
+               <td id="money_data"></td>
+               <td id="date_data"></td>
+            </tr>
+         </tbody>
+      </table>
+   </div>
+
+</body>
+
+</html>

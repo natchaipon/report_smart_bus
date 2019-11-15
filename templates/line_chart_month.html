@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>   -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart_box);
+      google.charts.setOnLoadCallback(drawChart_rfid);
+
+      function drawChart_box() {
+        var data = google.visualization.arrayToDataTable([
+                ['Year', 'Coin & Bill'],
+                {% for i in json_bus_box_table %} 
+                        ['M {{i.month}} Y {{i.year}}' , {{i.resule}}] ,
+                    {% endfor %} 
+        ]);
+
+        var options = {
+          title: 'Coin & Bill BUS {{bus_id}}',
+          hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+          vAxis: {minValue: 0}
+        };
+
+        var chart = new google.visualization.AreaChart(document.getElementById('chart_box'));
+        chart.draw(data, options);
+      }
+
+      function drawChart_rfid() {
+        var data = google.visualization.arrayToDataTable([
+                ['Year', 'RFID BUS'],
+                {% for i in json_bus_rfid_table %} 
+                        ['M {{i.month}} Y {{i.year}}' , {{i.resule}}] ,
+                    {% endfor %} 
+        ]);
+
+        var options = {
+          title: 'RFID BUS {{bus_id}}',
+          hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+          vAxis: {minValue: 0}
+        };
+
+        var chart = new google.visualization.AreaChart(document.getElementById('chart_rfid'));
+        chart.draw(data, options);
+      }
+    </script>
+
+    <script>
+        function validateForm() {
+            var x = document.forms["send_data"]["year_input"].value;
+            if (x == "") {
+                alert("Select Year!!!");
+                return false;
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12" style="background-color:lavender;">
+                <br>
+                <center>
+                    <h1>ข้อมูลรายวัน</h1>
+                    <!-- <img src="/img/header.png" class="img-fluid" alt="Responsive image"> -->
+                </center>
+            </div>
+            <div class="col-sm-2" style="background-color:lavender;">
+                <!-- <div class="row"> -->
+                <ul class="list-group">
+                        <a href="/">
+                            <li class="list-group-item">Dashboard</li>
+                        </a>
+                        <a href="/index_chart_month">
+                            <li class="list-group-item">ข้อมูลรายเดือน</li>
+                        </a>
+                        <a href="/index_chart_year">
+                            <li class="list-group-item">ข้อมูลรายปี</li>
+                        </a>
+                        <a href="/index_cal_sum_date">
+                            <li class="list-group-item">คำนวณยอดเงินย้อนหลัง</li>
+                        </a>
+                </ul>
+                <!-- </div> -->
+            </div>
+            <div class="col-sm-10">
+
+                    <div class="row">
+                            <div class="col-sm-5">
+                                <br>
+                                {% block content %}
+                                <form name="send_data" action="/chart_month" onsubmit="return validateForm()" method="post">
+                                    <div class="input-group mt-4 mb-5">
+                                            <div class="input-group-prepend">
+                                              <input class="date-own form-control" style="width: 200px;" placeholder="Select Year" type="text" name="year_input">
+                                              <div class="form-group">
+                                                    <select class="form-control" id="exampleFormControlSelect1" name="bus_id">
+                                                        {% for i in range(10) %}
+                                                            <option>Bus  {{i + 1}}</option>
+                                                      {% endfor %}
+                                                    </select>
+                                                  </div>
+                                            </div>
+                                            <!-- <input class="date-own form-control" style="width: 200px;" placeholder="Select Year" type="text"> -->
+                                          </div>
+                                          <button type="submit" class="btn btn-primary">Submit</button>
+                                        </form>
+                                        {% endblock %}
+
+                                    <!-- <input class="date-own form-control" style="width: 200px;" placeholder="Select Year" type="text"> -->
+                    
+                                    <script type="text/javascript">
+                                        $('.date-own').datepicker({
+                                           minViewMode: 2,
+                                           format: 'yyyy'
+                                         });
+                                    </script>
+                            </div>
+                    </div>
+
+                <div id="chart_box" style="width: 100%; height: 500px;"></div>
+
+                <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th>Month & Year</th>
+                            <th>Box Value</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <!-- <tr> -->
+                            {% for i in json_bus_box_table %} 
+                                <tr>
+                                    <td>Month {{i.month}} Year {{i.year}}</td>
+                                    <td>{{i.resule}}</td>
+                                    <td>Bath</td>
+                                </tr>
+                            {% endfor %} 
+                          <!-- </tr> -->
+                        </tbody>
+                      </table>
+
+                <div id="chart_rfid" style="width: 100%; height: 500px;"></div>
+
+                <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th>Month & Year</th>
+                            <th>RFID Value</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <!-- <tr> -->
+                            {% for i in json_bus_rfid_table %} 
+                                <tr>
+                                    <td>Month {{i.month}} Year {{i.year}}</td>
+                                    <td>{{i.resule}}</td>
+                                    <td>Bath</td>
+                                </tr>
+                            {% endfor %} 
+                          <!-- </tr> -->
+                        </tbody>
+                      </table>
+
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

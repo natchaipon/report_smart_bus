@@ -1,0 +1,64 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        var obj;
+
+        function WebSocketTest() {
+            if ("WebSocket" in window) {
+                for (var i = 1; i <= 5; i++) {
+                    var socket_url = "ws://103.86.49.233:1880/sum/box" + i.toString();
+                    var ws = new WebSocket(socket_url);
+                    ws.onmessage = function (evt) {
+                        var received_msg = evt.data;
+                        obj = JSON.parse(received_msg);
+                        console.log(i);
+                        console.log(obj[0]["SUM(money_box)"]);
+                    }
+                    //    document.getElementById("id_data").innerHTML = obj[0]['id'];
+                    //    document.getElementById("money_data").innerHTML = obj[0]['money'];
+                    //    document.getElementById("date_data").innerHTML = obj[0]['time'];
+
+                    google.charts.load('current', {
+                        'packages': ['table']
+                    });
+                    google.charts.setOnLoadCallback(drawTable);
+
+                    function drawTable() {
+                        // console.log(obj[0]['id']);
+                        var data = new google.visualization.DataTable();
+                        data.addColumn('number', 'ID');
+                        data.addColumn('number', 'Money');
+                        data.addColumn('string', 'Date Time');
+
+                        for (var i = 0; i <= 4; i++) {
+                            data.addRows([
+                                [obj[i]['id'], obj[i]['money'], obj[i]['time']],
+                            ]);
+                        }
+
+                        var table = new google.visualization.Table(document.getElementById('table_div'));
+                        table.draw(data, {
+                            showRowNumber: false,
+                            width: '100%',
+                            height: '50%'
+                        });
+                    }
+                };
+
+                ws.onclose = function () {
+                    alert("Connection is closed...");
+                };
+            }
+        }
+
+        WebSocketTest();
+    </script>
+</head>
+
+<body>
+    <div id="table_div"></div>
+</body>
+
+</html>

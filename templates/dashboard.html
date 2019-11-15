@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
+    <script type="text/javascript">
+        var obj;
+
+        function WebSocketTest() {
+            if ("WebSocket" in window) {
+                var ws = new WebSocket("ws://192.168.1.143:1880/ws/ex");
+                ws.onmessage = function (evt) {
+                    var received_msg = evt.data;
+                    obj = JSON.parse(received_msg);
+                    //   console.log(obj[]["money_total"]);
+                      console.log(obj[1]);
+                    document.getElementById("bus1_box").innerHTML = obj[0]['money_total'];
+                    document.getElementById("bus1_rfid").innerHTML = obj[1]['money_total'];
+                    document.getElementById("bus1_total").innerHTML = parseInt(obj[0]['money_total']) + parseInt(
+                        obj[1]['money_total']);
+
+                    document.getElementById("bus2_box").innerHTML = obj[2]['money_total'];
+                    document.getElementById("bus2_rfid").innerHTML = obj[3]['money_total'];
+                    document.getElementById("bus2_total").innerHTML = parseInt(obj[2]['money_total']) + parseInt(
+                        obj[3]['money_total']);
+
+                    document.getElementById("bus3_box").innerHTML = obj[4]['money_total'];
+                    document.getElementById("bus3_rfid").innerHTML = obj[5]['money_total'];
+                    document.getElementById("bus3_total").innerHTML = parseInt(obj[4]['money_total']) + parseInt(
+                        obj[5]['money_total']);
+
+                    document.getElementById("bus4_box").innerHTML = obj[6]['money_total'];
+                    document.getElementById("bus4_rfid").innerHTML = obj[7]['money_total'];
+                    document.getElementById("bus4_total").innerHTML = parseInt(obj[6]['money_total']) + parseInt(
+                        obj[7]['money_total']);
+
+                    document.getElementById("bus5_box").innerHTML = obj[8]['money_total'];
+                    document.getElementById("bus5_rfid").innerHTML = obj[9]['money_total'];
+                    document.getElementById("bus5_total").innerHTML = parseInt(obj[8]['money_total']) + parseInt(
+                        obj[9]['money_total']);
+
+                    document.getElementById("bus6_box").innerHTML = obj[10]['money_total'];
+                    document.getElementById("bus6_rfid").innerHTML = obj[11]['money_total'];
+                    document.getElementById("bus6_total").innerHTML = parseInt(obj[10]['money_total']) + parseInt(
+                        obj[11]['money_total']);
+
+                    document.getElementById("bus7_box").innerHTML = obj[12]['money_total'];
+                    document.getElementById("bus7_rfid").innerHTML = obj[13]['money_total'];
+                    document.getElementById("bus7_total").innerHTML = parseInt(obj[12]['money_total']) + parseInt(
+                        obj[13]['money_total']);
+
+                    document.getElementById("bus8_box").innerHTML = obj[14]['money_total'];
+                    document.getElementById("bus8_rfid").innerHTML = obj[15]['money_total'];
+                    document.getElementById("bus8_total").innerHTML = parseInt(obj[14]['money_total']) + parseInt(
+                        obj[15]['money_total']);
+
+                    document.getElementById("bus9_box").innerHTML = obj[16]['money_total'];
+                    document.getElementById("bus9_rfid").innerHTML = obj[17]['money_total'];
+                    document.getElementById("bus9_total").innerHTML = parseInt(obj[16]['money_total']) + parseInt(
+                        obj[17]['money_total']);
+
+                    document.getElementById("bus10_box").innerHTML = obj[18]['money_total'];
+                    document.getElementById("bus10_rfid").innerHTML = obj[19]['money_total'];
+                    document.getElementById("bus10_total").innerHTML = parseInt(obj[18]['money_total']) + parseInt(
+                        obj[19]['money_total']);
+                };
+
+                ws.onclose = function () {
+                    alert("Connection is closed...");
+                };
+            }
+        }
+
+        WebSocketTest();
+    </script>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <h2>Responsive Table</h2>
+        <p>The .table-responsive-sm class creates a responsive table which will scroll horizontally on screens that are
+            less than 576px wide.</p>
+        <p>Resize the browser window to see the effect.</p>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="table-warning">
+                        <th>BUS 20-1</th>
+                        <th>BUS 20-2</th>
+                        <th>BUS 20-3</th>
+                        <th>BUS 20-4</th>
+                        <th>BUS 20-5</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-info">
+                        <td><U>พนักงานขับรถ</U></td>
+                        <td><U>พนักงานขับรถ</U></td>
+                        <td><U>พนักงานขับรถ</U></td>
+                        <td><U>พนักงานขับรถ</U></td>
+                        <td><U>พนักงานขับรถ</U></td>
+                    </tr>
+                    <tr class="table-success">
+                        <td>นาย ณัชพล แก้วเนตร</td>
+                        <td>นาย ณัชพล แก้วเนตร</td>
+                        <td>นาย ณัชพล แก้วเนตร</td>
+                        <td>นาย ณัชพล แก้วเนตร</td>
+                        <td>นาย ณัชพล แก้วเนตร</td>
+                    </tr>
+                    <tr class="table-info">
+                        <td><B>ยอดเงิน <B id="bus1_box"></B> บาท</B></td>
+                        <td><B>ยอดเงิน <B id="bus2_box"></B> บาท</B></td>
+                        <td><B>ยอดเงิน <B id="bus3_box"></B> บาท</B></td>
+                        <td><B>ยอดเงิน <B id="bus4_box"></B> บาท</B></td>
+                        <td><B>ยอดเงิน <B id="bus5_box"></B> บาท</B></td>
+                    </tr>
+                    <tr class="table-success">
+                        <td><B>ยอดบัตร <B id="bus1_rfid"></B> บาท</B></td>
+                        <td><B>ยอดบัตร <B id="bus2_rfid"></B> บาท</B></td>
+                        <td><B>ยอดบัตร <B id="bus3_rfid"></B> บาท</B></td>
+                        <td><B>ยอดบัตร <B id="bus4_rfid"></B> บาท</B></td>
+                        <td><B>ยอดบัตร <B id="bus5_rfid"></B> บาท</B></td>
+                    </tr>
+                    <tr class="table-info">
+                        <td><B>ยอดสุทธิ <B id="bus1_total"></B> บาท</B></td>
+                        <td><B>ยอดสุทธิ <B id="bus2_total"></B> บาท</B></td>
+                        <td><B>ยอดสุทธิ <B id="bus3_total"></B> บาท</B></td>
+                        <td><B>ยอดสุทธิ <B id="bus4_total"></B> บาท</B></td>
+                        <td><B>ยอดสุทธิ <B id="bus5_total"></B> บาท</B></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="table-warning">
+                        <th>BUS 20-6</th>
+                        <th>BUS 20-7</th>
+                        <th>BUS 20-8</th>
+                        <th>BUS 21-1</th>
+                        <th>BUS 21-2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-info">
+                        <td><U>พนักงานขับรถ</U></td>
+                        <td><U>พนักงานขับรถ</U></td>
+                        <td><U>พนักงานขับรถ</U></td>
+                        <td><U>พนักงานขับรถ</U></td>
+                        <td><U>พนักงานขับรถ</U></td>
+                    </tr>
+                    <tr class="table-success">
+                        <td>นาย ณัชพล แก้วเนตร</td>
+                        <td>นาย ณัชพล แก้วเนตร</td>
+                        <td>นาย ณัชพล แก้วเนตร</td>
+                        <td>นาย ณัชพล แก้วเนตร</td>
+                        <td>นาย ณัชพล แก้วเนตร</td>
+                    </tr>
+                    <tr class="table-info">
+                        <td><B>ยอดเงิน <B id="bus6_box"></B> บาท</B></td>
+                        <td><B>ยอดเงิน <B id="bus7_box"></B> บาท</B></td>
+                        <td><B>ยอดเงิน <B id="bus8_box"></B> บาท</B></td>
+                        <td><B>ยอดเงิน <B id="bus9_box"></B> บาท</B></td>
+                        <td><B>ยอดเงิน <B id="bus10_box"></B> บาท</B></td>
+                    </tr>
+                    <tr class="table-success">
+                        <td><B>ยอดบัตร <B id="bus6_rfid"></B> บาท</B></td>
+                        <td><B>ยอดบัตร <B id="bus7_rfid"></B> บาท</B></td>
+                        <td><B>ยอดบัตร <B id="bus8_rfid"></B> บาท</B></td>
+                        <td><B>ยอดบัตร <B id="bus9_rfid"></B> บาท</B></td>
+                        <td><B>ยอดบัตร <B id="bus10_rfid"></B> บาท</B></td>
+                    </tr>
+                    <tr class="table-info">
+                        <td><B>ยอดสุทธิ <B id="bus6_total"></B> บาท</B></td>
+                        <td><B>ยอดสุทธิ <B id="bus7_total"></B> บาท</B></td>
+                        <td><B>ยอดสุทธิ <B id="bus8_total"></B> บาท</B></td>
+                        <td><B>ยอดสุทธิ <B id="bus9_total"></B> บาท</B></td>
+                        <td><B>ยอดสุทธิ <B id="bus10_total"></B> บาท</B></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
